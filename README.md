@@ -4,7 +4,9 @@ Proyek ini adalah aplikasi berbasis web yang dibangun menggunakan Streamlit dan 
 - Melacak kiriman
 - Melihat data kiriman
 - Mengelola data user melalui sistem login
+
 Aplikasi ini juga dilengkapi dengan fitur dashboard, pencarian kode pos, dan UI yang dikembangkan dengan antarmuka interaktif menggunakan Streamlit.
+
 Aplikasi ini dikembangkan oleh Salsabillah dan Nadia selama kegiatan magang, sebagai bagian dari latihan penerapan data engineering dan pengembangan aplikasi web.
 
 ## cara run di lokal
