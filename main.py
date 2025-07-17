@@ -29,11 +29,16 @@ else:
 
     st.markdown("### Pilih Layanan")
     load_css1()
-
-    page = st.selectbox(
-        "Pilih Halaman",
-        ["Cari Kode Pos", "Hitung Tarif Kirim", "Update Provinsi", "Detail laporan", "Data Kiriman"]
-    )
+    if st.session_state.role == "admin":
+      page = st.selectbox(
+            "Pilih Halaman",
+            ["Cari Kode Pos", "Hitung Tarif Kirim", "Update Provinsi", "Detail laporan", "Data Kiriman"]
+      )
+    elif st.session_state.role == "user":
+      page = st.selectbox(
+            "Pilih Halaman",
+            ["Cari Kode Pos", "Hitung Tarif Kirim", "Detail laporan", "Data Kiriman"]
+      )
 
     st.markdown("---")
 
@@ -43,20 +48,33 @@ else:
 
     st.markdown("<div style= 'height : 200px;'></div')>", unsafe_allow_html=True)
     st.markdown("---")
+    st.markdown(f"{st.session_state.username} as {st.session_state.role}")
     if st.button("Logout"):
       logout()
       st.session_state.clear()
       st.experimental_rerun()
 
-  if page == "Cari Kode Pos":
-        cari_kode_pos_page()
-  elif page == "Hitung Tarif Kirim":
-        hitung_tarif_kirim_page()
-  elif page == "Update Provinsi":
-        update_provinsi_page()
-  elif page == "Detail laporan":
-        tampilkan_dashboard()
-  elif page == "Data Kiriman":
-        datanya_page()
+  if st.session_state.role == "admin":
+      if page == "Cari Kode Pos":
+            cari_kode_pos_page()
+      elif page == "Hitung Tarif Kirim":
+            hitung_tarif_kirim_page()
+      elif page == "Update Provinsi":
+            update_provinsi_page()
+      elif page == "Detail laporan":
+            tampilkan_dashboard()
+      elif page == "Data Kiriman":
+            datanya_page()
 
-  load_css_footer()
+      load_css_footer()
+  elif st.session_state.role == "user":
+      if page == "Cari Kode Pos":
+            cari_kode_pos_page()
+      elif page == "Hitung Tarif Kirim":
+            hitung_tarif_kirim_page()
+      elif page == "Detail laporan":
+            tampilkan_dashboard()
+      elif page == "Data Kiriman":
+            datanya_page()
+
+      load_css_footer()
