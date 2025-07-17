@@ -19,4 +19,4 @@ kalo udah beres, tutup lalu "deactivate" untuk keluar dari venv nya
 ! kalo gagal,coba ganti wifi jadi Tethering pribadi 
 
 ## Link streamlit (deploy)
-[/link/](https://kode-pos-9mmoszomygpnabfbgnrvj9.streamlit.app)
+[Link Streamlit](https://kode-pos-9mmoszomygpnabfbgnrvj9.streamlit.app)
