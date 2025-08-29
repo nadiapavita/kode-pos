@@ -1,0 +1,6 @@
+streamlit
+pyngrok
+requests
+pymongo
+python-dotenv
+plotly
