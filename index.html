@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Loket PosIndo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #c41e3a, #8b1538);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: #c41e3a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-right: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-page {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            color: #1e3c72;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #c41e3a;
+        }
+
+        .section-title {
+            color: #c41e3a;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #c41e3a;
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-control:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #c41e3a, #8b1538);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #c41e3a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .service-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .download-section {
+            display: none;
+            background: #e8f5e8;
+            border: 2px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .receipt-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #c41e3a;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        /* Receipt Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            border: none;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: #1e3c72;
+            color: white;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+        #receiptContent {
+            padding: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin: 0 0 15px 0;
+            }
+            
+            .user-info {
+                margin-top: 15px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #receiptContent, #receiptContent * { visibility: visible; }
+            #receiptContent { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                background: white;
+            }
+            .modal { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">POS</div>
+                <div class="header-text">
+                    <h1>POS INDONESIA</h1>
+                    <p>Sistem Loket Terpadu - Melayani Indonesia dengan Hati</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <div><strong>Petugas:</strong> <span id="username">Admin</span></div>
+                <div><strong>Role:</strong> <span id="userRole">Operator</span></div>
+                <div><strong>Cabang:</strong> <span id="userCabang">Jakarta Pusat</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-page">
+            <h2 class="form-title">SISTEM LOKET TERPADU</h2>
+            
+            <div id="alertContainer"></div>
+            <div id="loadingContainer" class="loading">
+                <div class="spinner"></div>
+                <p>Memproses data...</p>
+            </div>
+
+            <form id="loketForm">
+                <!-- Data Pengirim -->
+                <div class="form-section">
+                    <div class="section-title">Data Pengirim</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nama Pengirim *</label>
+                            <input type="text" class="form-control" name="nama_pengirim" required placeholder="Masukkan nama lengkap pengirim">
+                        </div>
+                        <div class="form-group">
+                            <label>No HP Pengirim *</label>
+                            <input type="tel" class="form-control" name="no_hp_pengirim" required placeholder="Contoh: 08123456789">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Pengirim *</label>
+                        <textarea class="form-control" name="alamat_pengirim" required placeholder="Masukkan alamat lengkap pengirim"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kodepos Pengirim *</label>
+                        <input type="text" class="form-control" name="kodepos_pengirim" required placeholder="Contoh: 12345" maxlength="5" id="kodePosAsal">
+                    </div>
+                </div>
+
+                <!-- Data Penerima -->
+                <div class="form-section">
+                    <div class="section-title">Data Penerima</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nama Penerima *</label>
+                            <input type="text" class="form-control" name="nama_penerima" required placeholder="Masukkan nama lengkap penerima">
+                        </div>
+                        <div class="form-group">
+                            <label>No HP Penerima *</label>
+                            <input type="tel" class="form-control" name="no_hp_penerima" required placeholder="Contoh: 08987654321">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Penerima *</label>
+                        <textarea class="form-control" name="alamat_penerima" required placeholder="Masukkan alamat lengkap penerima"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kodepos Penerima *</label>
+                        <input type="text" class="form-control" name="kodepos_penerima" required placeholder="Contoh: 54321" maxlength="5" id="kodePosTujuan">
+                    </div>
+                </div>
+
+                <!-- Pilihan Layanan -->
+                <div class="form-section">
+                    <div class="section-title">Pilihan Layanan</div>
+                    <div id="layananInfo" class="alert alert-info">
+                        Isi kodepos pengirim & penerima untuk melihat layanan yang tersedia.
+                    </div>
+                    <div class="form-group">
+                        <label>Pilih Layanan *</label>
+                        <select class="form-control" name="layanan_pengirim" required id="layananSelect" disabled>
+                            <option value="">Pilih jenis layanan</option>
+                        </select>
+                    </div>
+                    <div id="serviceDetails" class="hidden"></div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">SIMPAN DATA</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">RESET FORM</button>
+                </div>
+            </form>
+
+            <!-- Download Section -->
+            <div id="downloadSection" class="download-section">
+                <h3>Data Berhasil Disimpan!</h3>
+                <div class="receipt-number" id="receiptNumber"></div>
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="showReceipt()">LIHAT RESI</button>
+                    <button class="btn btn-success" onclick="downloadReceipt()">DOWNLOAD RESI</button>
+                    <button class="btn btn-secondary" onclick="resetForm()">INPUT LAGI</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>RESI POS INDONESIA</h3>
+                <div>
+                    <button class="btn btn-success" onclick="printReceipt()" style="margin-right: 15px; padding: 8px 16px; font-size: 14px;">CETAK RESI</button>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+            </div>
+            <div id="receiptContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // KONFIGURASI API - GANTI DENGAN URL BACKEND ANDA
+        const API_BASE_URL = 'http://localhost:3000/api'; // Ganti dengan URL backend API Anda
+        
+        // Simulate user session - dalam implementasi nyata, ambil dari authentication
+        const userSession = {
+            username: 'Petugas Loket',
+            role: 'Operator',
+            cabang: 'Jakarta Pusat'
+        };
+
+        let currentTransaction = null;
+        let availableServices = {};
+
+        // Initialize user info
+        document.getElementById('username').textContent = userSession.username;
+        document.getElementById('userRole').textContent = userSession.role;
+        document.getElementById('userCabang').textContent = userSession.cabang;
+
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = `alert-${type}`;
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${alertClass} fade-in`;
+            alertDiv.innerHTML = message;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            
+            if (type !== 'error') {
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+        }
+
+        // Show/hide loading
+        function showLoading(show = true) {
+            const loading = document.getElementById('loadingContainer');
+            const form = document.getElementById('loketForm');
+            
+            if (show) {
+                loading.style.display = 'block';
+                form.style.opacity = '0.5';
+                form.style.pointerEvents = 'none';
+            } else {
+                loading.style.display = 'none';
+                form.style.opacity = '1';
+                form.style.pointerEvents = 'auto';
+            }
+        }
+
+        // API Functions - IMPLEMENTASI KONEKSI KE BACKEND
+        async function fetchTariffData(asalKodepos, tujuanKodepos) {
+            try {
+                // GANTI DENGAN PANGGILAN API NYATA KE BACKEND ANDA
+                const response = await axios.get(`${API_BASE_URL}/tariff`, {
+                    params: {
+                        asal: asalKodepos,
+                        tujuan: tujuanKodepos
+                    }
+                });
+                return response.data;
+            } catch (error) {
+                console.error('Error fetching tariff:', error);
+                // Fallback ke data mock jika API gagal
+                return getMockTariffData(asalKodepos, tujuanKodepos);
+            }
+        }
+
+        async function saveTransactionData(data) {
+            try {
+                // GANTI DENGAN PANGGILAN API NYATA KE BACKEND ANDA
+                const response = await axios.post(`${API_BASE_URL}/transactions`, data);
+                return response.data;
+            } catch (error) {
+                console.error('Error saving transaction:', error);
+                // Simulasi berhasil untuk demo
+                return {
+                    acknowledged: true,
+                    insertedId: 'mock_id_' + Date.now()
+                };
+            }
+        }
+
+        // Mock data untuk fallback jika API belum siap
+        function getMockTariffData(asalKodepos, tujuanKodepos) {
+            return {
+                asal: asalKodepos,
+                tujuan: tujuanKodepos,
+                layanan: [
+                    {
+                        nama_layanan: "POS REGULER",
+                        tarif: 15000,
+                        estimasi: "3-5 hari kerja",
+                        catatan: "Layanan ekonomis standar"
+                    },
+                    {
+                        nama_layanan: "POS EXPRESS",
+                        tarif: 25000,
+                        estimasi: "1-2 hari kerja",
+                        catatan: "Layanan cepat dan terpercaya"
+                    },
+                    {
+                        nama_layanan: "POS KILAT KHUSUS",
+                        tarif: 35000,
+                        estimasi: "1 hari kerja",
+                        catatan: "Layanan super cepat"
+                    },
+                    {
+                        nama_layanan: "EMS (EXPRESS MAIL SERVICE)",
+                        tarif: 45000,
+                        estimasi: "Same day delivery",
+                        catatan: "Layanan premium tercepat"
+                    }
+                ]
+            };
+        }
+
+        // Load services when postal codes are filled
+        async function loadServices() {
+            const asalKodepos = document.getElementById('kodePosAsal').value.trim();
+            const tujuanKodepos = document.getElementById('kodePosTujuan').value.trim();
+            const layananSelect = document.getElementById('layananSelect');
+            const layananInfo = document.getElementById('layananInfo');
+
+            if (asalKodepos.length === 5 && tujuanKodepos.length === 5) {
+                showLoading(true);
+                layananInfo.innerHTML = 'Memuat layanan...';
+                layananInfo.className = 'alert alert-info';
+
+                try {
+                    const tariffData = await fetchTariffData(asalKodepos, tujuanKodepos);
+                    
+                    if (tariffData && tariffData.layanan && tariffData.layanan.length > 0) {
+                        availableServices = {};
+                        layananSelect.innerHTML = '<option value="">Pilih jenis layanan</option>';
+                        
+                        tariffData.layanan.forEach(service => {
+                            const displayText = `${service.nama_layanan} - Rp ${service.tarif.toLocaleString('id-ID')}`;
+                            
+                            availableServices[service.nama_layanan] = service;
+                            
+                            const option = document.createElement('option');
+                            option.value = service.nama_layanan;
+                            option.textContent = displayText;
+                            layananSelect.appendChild(option);
+                        });
+                        
+                        layananSelect.disabled = false;
+                        layananInfo.innerHTML = 'Pilih layanan yang diinginkan dari daftar di atas.';
+                        layananInfo.className = 'alert alert-success';
+                        
+                    } else {
+                        layananSelect.innerHTML = '<option value="">Tidak ada layanan tersedia</option>';
+                        layananSelect.disabled = true;
+                        layananInfo.innerHTML = 'Tidak ada layanan untuk kombinasi kodepos ini.';
+                        layananInfo.className = 'alert alert-warning';
+                        availableServices = {};
+                    }
+                } catch (error) {
+                    layananInfo.innerHTML = 'Error memuat layanan. Silakan coba lagi.';
+                    layananInfo.className = 'alert alert-error';
+                    layananSelect.disabled = true;
+                    availableServices = {};
+                }
+                
+                showLoading(false);
+            } else {
+                layananSelect.innerHTML = '<option value="">Pilih jenis layanan</option>';
+                layananSelect.disabled = true;
+                layananInfo.innerHTML = 'Isi kodepos pengirim & penerima untuk melihat layanan yang tersedia.';
+                layananInfo.className = 'alert alert-info';
+                availableServices = {};
+                hideServiceDetails();
+            }
+        }
+
+        // Show service details when selected
+        function showServiceDetails(serviceName) {
+            const serviceDetails = document.getElementById('serviceDetails');
+            
+            if (serviceName && availableServices[serviceName]) {
+                const service = availableServices[serviceName];
+                let detailsHTML = `
+                    <div class="service-info">
+                        <strong>Tarif:</strong> Rp ${service.tarif.toLocaleString('id-ID')}<br>
+                `;
+                
+                if (service.estimasi) {
+                    detailsHTML += `<strong>Estimasi:</strong> ${service.estimasi}<br>`;
+                }
+                
+                if (service.catatan) {
+                    detailsHTML += `<strong>Catatan:</strong> ${service.catatan}`;
+                }
+                
+                detailsHTML += '</div>';
+                
+                serviceDetails.innerHTML = detailsHTML;
+                serviceDetails.classList.remove('hidden');
+            } else {
+                hideServiceDetails();
+            }
+        }
+
+        function hideServiceDetails() {
+            document.getElementById('serviceDetails').classList.add('hidden');
+        }
+
+        // Generate receipt number (sama seperti Streamlit)
+        function generateReceiptNumber() {
+            const now = new Date();
+            const dateStr = now.getFullYear().toString() + 
+                           (now.getMonth() + 1).toString().padStart(2, '0') + 
+                           now.getDate().toString().padStart(2, '0');
+            const randomNum = Math.floor(Math.random() * 90000) + 10000;
+            return `PID${randomNum}PKH${dateStr}${Math.floor(Math.random() * 9000) + 1000}.1`;
+        }
+
+        // Sensor phone function
+        function sensorPhone(phoneNumber) {
+            if (phoneNumber.length > 5) {
+                return phoneNumber.substring(0, 3) + "*".repeat(phoneNumber.length - 5) + phoneNumber.slice(-2);
+            }
+            return phoneNumber;
+        }
+
+        // Generate receipt HTML (sama seperti Python version)
+        function generateReceiptHTML(transactionData) {
+            const data = transactionData.data;
+            const selectedLayanan = transactionData.selected_layanan;
+            const nomorResi = transactionData.nomor_resi;
+            
+            const mitraLogos = [
+                {"name": "Shopee", "color": "#EE4D2D", "bg": "#FFF0ED"},
+                {"name": "Tokopedia", "color": "#42B549", "bg": "#F0F9F1"},
+                {"name": "Blibli", "color": "#0099CC", "bg": "#E6F7FF"},
+                {"name": "Bukalapak", "color": "#E31E24", "bg": "#FFF0F0"},
+                {"name": "Lazada", "color": "#FF6600", "bg": "#FFF5E6"},
+                {"name": "TikTok Shop", "color": "#000000", "bg": "#F5F5F5"}
+            ];
+            
+            const selectedMitra = mitraLogos[Math.floor(Math.random() * mitraLogos.length)];
+            const barcodeSimple = "||| " + Array.from({length: 20}, (_, i) => i % 2 === 0 ? "||" : "|").join(" ") + " |||";
+            
+            return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Resi POS Indonesia - ${nomorResi}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; font-size: 14px; line-height: 1.4; color: #333; background: #f5f5f5; padding: 20px; }
+        .receipt-container { border: 2px solid #333; max-width: 900px; margin: 0 auto; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        .receipt-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #f8f9fa; border-bottom: 2px solid #333; }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .pos-logo { color: #E31E24; font-weight: bold; font-size: 28px; }
+        .laju-text { color: #FF6B35; font-size: 20px; font-weight: bold; font-style: italic; }
+        .mitra-badge { background: ${selectedMitra.bg}; color: ${selectedMitra.color}; padding: 8px 15px; border-radius: 15px; font-weight: bold; font-size: 12px; margin-left: 20px; border: 1px solid ${selectedMitra.color}; }
+        .receipt-number { font-weight: bold; font-size: 16px; color: #333; }
+        .receipt-content { display: flex; min-height: 500px; }
+        .left-panel { flex: 2; padding: 20px; background: #fafafa; }
+        .right-panel { flex: 1; border-left: 2px solid #333; padding: 20px; background: white; }
+        .info-section { background: white; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
+        .section-title { background: #495057; color: white; padding: 10px 15px; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+        .section-content { padding: 15px; line-height: 1.6; }
+        .field-label { font-weight: bold; color: #495057; display: block; margin-bottom: 3px; }
+        .field-value { color: #212529; margin-bottom: 10px; word-wrap: break-word; }
+        .routing-display { background: #007bff; color: white; border-radius: 8px; padding: 20px; text-align: center; margin: 15px 0; }
+        .routing-code { font-size: 24px; font-weight: bold; }
