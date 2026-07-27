@@ -40,7 +40,7 @@ else:
         <div class="welcome-toast">
             <div class="welcome-name">Selamat datang, {st.session_state.username}</div>
             <div class="welcome-role">Login sebagai {role_display}</div>
-            <div class="welcome-cabang">Cabang nya di {st.session_state.cabang}</div>
+            # <div class="welcome-cabang">Cabang nya di {st.session_state.cabang}</div> # nyalain kalo connection nya yg rifki/dito
         </div>
         """, unsafe_allow_html=True)
         st.session_state.show_welcome = True
