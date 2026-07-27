@@ -6,8 +6,10 @@ def hitung_tarif_kirim_page():
     headernya('Tarif Pengiriman', 'Hitung biaya pengiriman paket Anda dengan akurat dan terpercaya')
     try:
         # Koneksi MongoDB
-        client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
-        db = client['pos_indonesia']
+        # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+        # db = client['pos_indonesia']
+        client = MongoClient("mongodb+srv://pavita_readonly:readonly@cluster0.cqmcd12.mongodb.net/")
+        db = client['datapos']
         collection = db['tarif_pos']
 
         # Form input
