@@ -5,11 +5,11 @@ import time
 active_sessions = {}
 
 def get_user_from_db(username):
-    client = MongoClient("mongodb://pavita_ro:readonly@localhost:27017/?authSource=admin")
+    client = MongoClient("mongodb://pavita_ro:readonly@localhost:27017/?authSource=admin") # mongo lokal
     # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
     
     # db = client["pos_indonesia"]
-    db = client["datapos"]
+    db = client["datapos"] # mongo lokal
     collection = db["datalogin"]
     user = collection.find_one({"username": username})
     return user  
@@ -35,7 +35,7 @@ def login(username, password):
         st.session_state.logged_in = True
         st.session_state.username = username
         st.session_state.role = user.get("role", "user")
-        st.session_state.cabang = user.get("cabang")
+        # st.session_state.cabang = user.get("cabang") # mongo lokal ini nya dimatiin
         st.session_state.token = generate_token(username)
         return True
     return False
