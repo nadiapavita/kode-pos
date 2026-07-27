@@ -35,14 +35,14 @@ else:
         st.session_state.show_welcome = True
     
     if st.session_state.show_welcome:
-        # role_display = "Administrator" if st.session_state.role == "admin" else "Pengguna"
+        role_display = "Administrator" if st.session_state.role == "admin" else "Pengguna"
         st.markdown(f"""
         <div class="welcome-toast">
             <div class="welcome-name">Selamat datang, {st.session_state.username}</div>
             <div class="welcome-role">Login sebagai {role_display}</div>
         </div>
         """, unsafe_allow_html=True)
-        st.session_state.show_welcome = True
+        st.session_state.show_welcome = False
     
     st.markdown('</div>', unsafe_allow_html=True)
 
