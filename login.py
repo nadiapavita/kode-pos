@@ -12,7 +12,8 @@ def get_user_from_db(username):
     db = client["datapos"]
     collection = db["datalogin"]
     user = collection.find_one({"username": username})
-    return user 
+    return user  
+    
 
 def init_session_state():
     defaults = {
