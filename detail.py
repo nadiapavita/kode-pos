@@ -7,8 +7,10 @@ from css import load_css_detail_page, css_header_detail_page
 
 def detaildashboard():
     # client = MongoClient("mongodb://pavita_ro:readonly@localhost:27017/?authSource=admin")
-    client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
-    db = client['pos_indonesia']
+    # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+    # db = client['pos_indonesia']
+    client = MongoClient("mongodb+srv://pavita_readonly:readonly@cluster0.cqmcd12.mongodb.net/")
+    db = client['datapos']
 
     # AGGREGATION PIPELINE
     testtransaksi_pipeline = [
