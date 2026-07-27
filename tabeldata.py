@@ -7,8 +7,10 @@ import datetime
 def datanya_page():
     css_tabeldata()
     # client = MongoClient("mongodb://salsa_ro:readonly@localhost:27017/?authSource=admin")
-    client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
-    db = client['pos_indonesia']
+    # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+    # db = client['pos_indonesia']
+    client = MongoClient("mongodb+srv://pavita_readonly:readonly@cluster0.cqmcd12.mongodb.net/")
+    db = client['datapos']
     collection = db['testtransaksi']
     data = list(collection.find({}, {
         "timestamps.createdAt": 1,
@@ -315,6 +317,7 @@ def datanya_page():
                 if st.button("Next ▶", disabled=(st.session_state.current_page >= total_pages), key="next_btn", help="Next page"):
                     st.session_state.current_page += 1
                     st.rerun()
+
 
 
 
