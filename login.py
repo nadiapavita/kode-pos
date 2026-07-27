@@ -5,8 +5,8 @@ import time
 active_sessions = {}
 
 def get_user_from_db(username):
-    #client = MongoClient("mongodb://pavita_ro:readonly@localhost:27017/?authSource=admin")
-    client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+    client = MongoClient("mongodb://pavita_ro:readonly@localhost:27017/?authSource=admin")
+    # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
     
     db = client["pos_indonesia"]
     collection = db["datalogin"]
