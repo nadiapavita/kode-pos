@@ -734,8 +734,10 @@ def create_receipt_download_button(transaction_data):
 def loket_page():
     css_loket1()
     css_header_loket()
-    client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
-    db = client["pos_indonesia"]
+    # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+    # db = client["pos_indonesia"]
+    client = MongoClient("mongodb+srv://pavita_readonly:readonly@cluster0.cqmcd12.mongodb.net/")
+    db = client['datapos']
     loket_collection = db["loket"]
     tarif_pos_collection = db["tarif_pos"]
 
@@ -927,4 +929,5 @@ def loket_page():
                 del st.session_state.last_transaction
             st.rerun()
             
+
         show_receipt_in_streamlit(st.session_state.last_transaction)
