@@ -5,7 +5,9 @@ from css import headernya
 def cari_kode_pos_page():
     headernya('Pencarian Kode Pos Indonesia', 'Temukan kode pos dengan mudah menggunakan dropdown alamat yang tersedia')
     # client = MongoClient("mongodb://pavita_ro:readonly@localhost:27017/?authSource=admin")
-    client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+    # client = MongoClient("mongodb+srv://masukannamatemananda:masukanpasswordtemananda@posindo.5juwxxh.mongodb.net/")
+    client = MongoClient("mongodb+srv://pavita_readonly:readonly@cluster0.cqmcd12.mongodb.net/")
+    db = client['datapos']
     db = client['pos_indonesia']
     collection = db['kodepos']
 
