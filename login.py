@@ -22,7 +22,7 @@ def init_session_state():
         "show_forgot_password": False,
         "username": None,
         "role":None,
-        "cabang": None,
+        # "cabang": None, # mongo lokal ini dimatiin
         "token": None
     }
     for key, value in defaults.items():
@@ -81,6 +81,6 @@ def logout():
     st.session_state.logged_in = False
     st.session_state.username = None
     st.session_state.role = None
-    st.session_state.cabang = None
+    # st.session_state.cabang = None # mongo lokal dimatiin
     st.session_state.token = None
     st.rerun()
